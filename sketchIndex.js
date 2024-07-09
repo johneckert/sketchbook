@@ -1,6 +1,6 @@
 const CURRENT_DATE = new Date();
 const START_DATE = new Date(2024, 6, 6, CURRENT_DATE.getHours(), CURRENT_DATE.getMinutes(), CURRENT_DATE.getSeconds(), CURRENT_DATE.getMilliseconds());
-let VIEWR_OPEN = false;
+let VIEWER_OPEN = false;
 
 function getDaysBetweenDates(startDate, endDate) {
   const timeDifference = endDate.getTime() - startDate.getTime();
@@ -19,12 +19,18 @@ function getSketchDateString(offset) {
   return`${month}${day}${year}`;
 }
 
-const toggleViewer = () => {
-  VIEWR_OPEN = !VIEWR_OPEN;
-  if (VIEWR_OPEN) {
-    document.getElementById('viewr').style.display = 'block';
+const toggleViewer = (sketchScript) => {
+  VIEWER_OPEN = !VIEWER_OPEN;
+  let indexBody = document.getElementById('index-body');
+  let sketch = document.createElement('script');
+  sketch.src = 'sketches/' + sketchScript + '.js';
+  if (VIEWER_OPEN) {
+    document.body.removeChild(indexBody);
+    document.body.appendChild(sketch);
   } else {
-    document.getElementById('viewr').style.display = 'none';
+    document.body.removeChild(sketch);
+    document.body.appendChild(indexBody);
+
   }
 }
 
@@ -33,9 +39,6 @@ let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
 
 for (let i = 0; i < numberOfDays; i++) {
   let sketchDateString = getSketchDateString(i);
-  let sketch = document.createElement('script');
-  // sketch.src = 'sketches/' + sketchDateString + '.js';
-  // document.body.appendChild(sketch);
 
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
@@ -45,8 +48,10 @@ for (let i = 0; i < numberOfDays; i++) {
   sketchImg = document.createElement('img');
   sketchImg.src = 'images/' + sketchDateString + '.png';
   sketchEl.appendChild(sketchImg);
-  sketchEl.addEventListener('click', () => {
-    window.location.href = 'sketch-viewer.html';
+  sketchEl.addEventListener('click', (event) => {
+    // window.location.href = 'sketch-viewer.html';
+    event.preventDefault();
+    toggleViewer(sketchDateString);
   });
 
   container.appendChild(sketchEl);
