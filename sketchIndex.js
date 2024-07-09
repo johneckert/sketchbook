@@ -1,11 +1,10 @@
 const CURRENT_DATE = new Date();
 const START_DATE = new Date(2024, 6, 6, CURRENT_DATE.getHours(), CURRENT_DATE.getMinutes(), CURRENT_DATE.getSeconds(), CURRENT_DATE.getMilliseconds());
-
+let VIEWR_OPEN = false;
 
 function getDaysBetweenDates(startDate, endDate) {
   const timeDifference = endDate.getTime() - startDate.getTime();
   const daysDifference = timeDifference / (1000 * 3600 * 24);
-  console.log('DaysDiff: ', daysDifference + 1);
   return Math.abs(Math.round(daysDifference)) + 1; // +1 to include the start date
 }
 
@@ -20,17 +19,23 @@ function getSketchDateString(offset) {
   return`${month}${day}${year}`;
 }
 
-const container = document.getElementById('index-container');
+const toggleViewer = () => {
+  VIEWR_OPEN = !VIEWR_OPEN;
+  if (VIEWR_OPEN) {
+    document.getElementById('viewr').style.display = 'block';
+  } else {
+    document.getElementById('viewr').style.display = 'none';
+  }
+}
 
-console.log(START_DATE, CURRENT_DATE);
+const container = document.getElementById('index-container');
 let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
-console.log(numberOfDays);
+
 for (let i = 0; i < numberOfDays; i++) {
   let sketchDateString = getSketchDateString(i);
-  console.log(sketchDateString);
-  // let sketch = document.createElement('script');
+  let sketch = document.createElement('script');
   // sketch.src = 'sketches/' + sketchDateString + '.js';
-  // container.appendChild(sketch);
+  // document.body.appendChild(sketch);
 
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
@@ -40,6 +45,11 @@ for (let i = 0; i < numberOfDays; i++) {
   sketchImg = document.createElement('img');
   sketchImg.src = 'images/' + sketchDateString + '.png';
   sketchEl.appendChild(sketchImg);
+  sketchEl.addEventListener('click', () => {
+    window.location.href = 'sketch-viewer.html';
+  });
 
   container.appendChild(sketchEl);
 }
+
+
