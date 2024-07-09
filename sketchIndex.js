@@ -49,9 +49,8 @@ for (let i = 0; i < numberOfDays; i++) {
   sketchImg.src = 'images/' + sketchDateString + '.png';
   sketchEl.appendChild(sketchImg);
   sketchEl.addEventListener('click', (event) => {
-    // window.location.href = 'sketch-viewer.html';
+    window.location.href = 'sketch.html?' + sketchDateString;
     event.preventDefault();
-    toggleViewer(sketchDateString);
   });
 
   container.appendChild(sketchEl);

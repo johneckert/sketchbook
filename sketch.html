@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sketch Viewer</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+  </head>
+
+  <body> 
+    <button class="back-button" onClick="history.back()">BACK</button>
+    <script>
+      function addScript(src) { 
+        new Promise((resolve, reject) => {
+          const sketchScript = document.createElement('script');
+          sketchScript.src = src;
+          sketchScript.addEventListener('load', resolve);
+          sketchScript.addEventListener('error', reject);
+          document.body.append( sketchScript);
+        });
+      };
+
+      addScript(`sketches/${window.location.search.substring(1)}.js`);
+
+    </script>
+  </body>
+</html>
