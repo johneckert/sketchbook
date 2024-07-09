@@ -38,14 +38,12 @@ function draw() {
   directionalLight(c, lightDir);
   specularMaterial(50);
   
-  translate(-unit * 26, 0, 0);
+  translate(-unit * 42, 0, 0);
   push();
   for (let i = 0; i < 20; i++) {
     spinningTorus(frameCount);
   }
   pop();
-  translate(200, 0, 0);
-  sphere(unit);
   let positionInPeriod = findPositionInPeriod(frameCount);
   if (isVertical(positionInPeriod)) {
     push();
