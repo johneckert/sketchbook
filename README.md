@@ -1,7 +1,7 @@
 # SKETCHBOOK
 
 Daily sketches and experiments with p5.js.
-[Sketch Book](https://johneckert.github.io/sketchbook/)
+View them here: [Sketch Book](https://johneckert.github.io/sketchbook/)
 
 ### 07/06/2024
 https://github.com/johneckert/sketchbook/assets/14866241/2a63a2ab-595f-4564-9c64-4f60352029bd
@@ -15,6 +15,8 @@ https://github.com/johneckert/sketchbook/assets/14866241/10d2831d-f0e6-4ef5-8cce
 ### 07/09/2024
 https://github.com/johneckert/sketchbook/assets/14866241/1d5d1101-32ca-4aa5-b25c-ce066189417e
 
+### 07/10/2024
+https://github.com/johneckert/sketchbook/assets/14866241/65809bbf-7180-4a2a-8031-c358df6ad881
 
 
 
