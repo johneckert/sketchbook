@@ -6,9 +6,12 @@ html, body {
 }
 
 #index-body {
-    /* background-image: linear-gradient(180deg, #ffd89b, #19547b); */
-  /* background-image: linear-gradient(180deg, #0F2027, #203A43, #2C5364); */
   background-image: linear-gradient(180deg, #1F1C2C, #928DAB);
+  padding: 0 17vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .hide {
@@ -35,11 +38,17 @@ h1 {
 
 #index-container {
   display: flex;
-  justify-content: center;
-  align-items:flex-start;
+  justify-content: flex-start;
+  align-content: flex-start;  
   flex-direction: row;
   flex-wrap: wrap;
-  height: 100vh;
+}
+
+.container::after {
+  content: "";
+  flex: 1 1 20%;
+  margin: 5px;
+  visibility: hidden;
 }
 
 .back-button {
@@ -57,9 +66,10 @@ h1 {
 }
 
 .sketch-item {
-  margin: 10px;
+  margin: 1vw;
   cursor: pointer;
-  max-width: 20vw;
+  width: 20vw;
+  height: 20vw;
 }
 
 .sketch-item h2 {
