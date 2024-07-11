@@ -18,6 +18,9 @@ https://github.com/johneckert/sketchbook/assets/14866241/1d5d1101-32ca-4aa5-b25c
 ### 07/10/2024
 https://github.com/johneckert/sketchbook/assets/14866241/65809bbf-7180-4a2a-8031-c358df6ad881
 
+### 07/11/2024
+https://github.com/user-attachments/assets/37d59dff-5c87-469a-874b-581e852a1461
+
 
 
 
