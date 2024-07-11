@@ -35,9 +35,10 @@ function checkIfImageExists(url, callback) {
   }
 }
 
-function createSketchElement(sketchDateString) {
+function createSketchElement(sketchDateString, i) {
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
+  sketchEl.style.order = i;
   sketchTitle = document.createElement('h2');
   sketchTitle.innerText = sketchDateString;
   sketchEl.appendChild(sketchTitle);
@@ -60,11 +61,9 @@ for (let i = 0; i < numberOfDays; i++) {
   let sketchDateString = getSketchDateString(i);
   checkIfImageExists(`images/${sketchDateString}.png`, (exists) => {
     if (exists) {
-      createSketchElement(sketchDateString);
+      createSketchElement(sketchDateString, i);
     } else {
       console.warn(`Image ${sketchDateString}.png does not exist`)
     }
   });
 }
-
-
