@@ -1,6 +1,5 @@
 const CURRENT_DATE = new Date();
 const START_DATE = new Date(2024, 6, 6, CURRENT_DATE.getHours(), CURRENT_DATE.getMinutes(), CURRENT_DATE.getSeconds(), CURRENT_DATE.getMilliseconds());
-let VIEWER_OPEN = false;
 
 function getDaysBetweenDates(startDate, endDate) {
   const timeDifference = endDate.getTime() - startDate.getTime();
@@ -19,27 +18,24 @@ function getSketchDateString(offset) {
   return`${month}${day}${year}`;
 }
 
-const toggleViewer = (sketchScript) => {
-  VIEWER_OPEN = !VIEWER_OPEN;
-  let indexBody = document.getElementById('index-body');
-  let sketch = document.createElement('script');
-  sketch.src = 'sketches/' + sketchScript + '.js';
-  if (VIEWER_OPEN) {
-    document.body.removeChild(indexBody);
-    document.body.appendChild(sketch);
+function checkIfImageExists(url, callback) {
+  const img = new Image();
+  img.src = url;
+  
+  if (img.complete) {
+    callback(true);
   } else {
-    document.body.removeChild(sketch);
-    document.body.appendChild(indexBody);
-
+    img.onload = () => {
+      callback(true);
+    };
+    
+    img.onerror = () => {
+      callback(false);
+    };
   }
 }
 
-const container = document.getElementById('index-container');
-let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
-
-for (let i = 0; i < numberOfDays; i++) {
-  let sketchDateString = getSketchDateString(i);
-
+function createSketchElement(sketchDateString) {
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
   sketchTitle = document.createElement('h2');
@@ -54,6 +50,21 @@ for (let i = 0; i < numberOfDays; i++) {
   });
 
   container.appendChild(sketchEl);
+}
+
+
+const container = document.getElementById('index-container');
+let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
+
+for (let i = 0; i < numberOfDays; i++) {
+  let sketchDateString = getSketchDateString(i);
+  checkIfImageExists(`images/${sketchDateString}.png`, (exists) => {
+    if (exists) {
+      createSketchElement(sketchDateString);
+    } else {
+      console.warn(`Image ${sketchDateString}.png does not exist`)
+    }
+  });
 }
 
 
