@@ -3,6 +3,22 @@
 Daily sketches and experiments with p5.js.
 View them here: [Sketch Book](https://johneckert.github.io/sketchbook/)
 
+## Shaders
+#### Moir Shader Usage
+```javascript
+let shaderProgram;
+
+function preload() {
+  shaderProgram = loadShader('path/to/vert.glsl', 'path/to/frag.glsl');
+}
+
+function setup() {
+  shader(shaderProgram);
+  shaderProgram.setUniform('stripeWidth', 0.1); // sets the stripe size
+  shaderProgram.setUniform('offset', [0.0, 0.0]); // sets the offset to manipulate moire effect
+}
+```
+
 ### 07/06/2024
 https://github.com/johneckert/sketchbook/assets/14866241/2a63a2ab-595f-4564-9c64-4f60352029bd
 
@@ -23,7 +39,6 @@ https://github.com/user-attachments/assets/37d59dff-5c87-469a-874b-581e852a1461
 
 ### 07/12/2024
 https://github.com/user-attachments/assets/aa29ce8c-2f32-4bc2-8f15-939a6c46f466
-
 
 
 
