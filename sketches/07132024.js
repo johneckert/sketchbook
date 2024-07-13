@@ -62,7 +62,7 @@ function draw() {
   circle(x - r * 16, r * 2, r * 2);
 
   x += 10;
-  if (x > windowWidth) {
+  if (x > windowWidth + (r * 16)) {
     x = -1 * (r + HALF_WIDTH);
   }
 
