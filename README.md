@@ -4,12 +4,24 @@ Daily sketches and experiments with p5.js.
 View them here: [Sketch Book](https://johneckert.github.io/sketchbook/)
 
 ## Shaders
+### Gaussian Blur Shader
+```javascript
+let shaderProgram;
+
+function preload() {
+  shaderProgram = loadShader('shaders/gaus.vert', 'shaders/gaus.frag');
+}
+
+```
 #### Moir Shader Usage
 ```javascript
 let shaderProgram;
 
 function preload() {
   shaderProgram = loadShader('path/to/vert.glsl', 'path/to/frag.glsl');
+  shader(shaderProgram);
+  shaderProgram.setUniform('uResolution', [width, height]); // Adjust the resolution of pixel sampling, baseline is [width, height]
+  shaderProgram.setUniform('uBlurSize', 1.0); // Adjust the amount of blur
 }
 
 function setup() {
