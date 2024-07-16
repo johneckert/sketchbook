@@ -1,5 +1,3 @@
-// fragmentShader.glsl
-
 precision mediump float;
 
 varying vec2 vTexCoord;

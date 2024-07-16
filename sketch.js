@@ -1,132 +1,99 @@
-let CENTER_X, CENTER_Y;
+let shaderProgram, i, pg;
+
+function preload() {
+  shaderProgram = loadShader('shaders/gaus.vert', 'shaders/gaus.frag',
+    () => {
+      console.log('Shader loaded successfully');
+    },
+    (error) => {
+      console.error('Shader failed to load:', error);
+    }
+  );
+}
 
 function setup() {
-  CENTER_X = windowWidth / 2;
-  CENTER_Y = windowHeight / 2;
-  angleMode(DEGREES);
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  noStroke();
+  
+  // Create a graphics buffer with the same size as the canvas
+  pg = createGraphics(width, height);
+  
+  // Initialize the shader
+  shader(shaderProgram);
+  
+  // Set shader uniforms
+  shaderProgram.setUniform('uResolution', [width, height]);
+  shaderProgram.setUniform('uBlurSize', 30.0); // Adjust the blur size as needed
+  
+  i = 0;
+
+  // Add error checking for the shader program
+  checkShaderCompilation(shaderProgram);
 }
 
 function draw() {
+  // Render 2D shapes to the graphics buffer
+  pg.push();
+  pg.background(100);
+  pg.noStroke();
+  
+  pg.fill(255, 0, 0);
+  pg.ellipse(pg.width / 2 + i, pg.height / 2, 200, 200);
+  
+  pg.pop();
+  
+  // Apply the shader
+  shader(shaderProgram);
+  
+  // Set the texture
+  shaderProgram.setUniform('uSampler', pg);
+  texture(pg);
+  
+  // Ensure the matrices are defined before attempting to use them
+  if (this._renderer.uPMatrix && this._renderer.uMVMatrix) {
+    // Access the projection and model-view matrices
+    let projectionMatrix = this._renderer.uPMatrix.mat4 || this._renderer.uPMatrix;
+    let modelViewMatrix = this._renderer.uMVMatrix.mat4 || this._renderer.uMVMatrix;
+
+    // Convert matrices to Float32Array
+    let projectionMatArray = new Float32Array(projectionMatrix);
+    let modelViewMatArray = new Float32Array(modelViewMatrix);
+
+    // Set matrix uniforms
+    shaderProgram.setUniform('uProjectionMatrix', projectionMatArray);
+    shaderProgram.setUniform('uModelViewMatrix', modelViewMatArray);
+  } else {
+    console.warn('Projection matrix or model-view matrix is undefined.');
+  }
+
+  // Setup perspective projection
+  perspective();
+  
+  // Draw the plane with the same dimensions as the canvas
+  translate(0, 0, 0); // Adjust translation to fit the canvas
+  plane(width, height);
+  
+  i += 1;
+  if (i > width) {
+    i = 0;
+  }
 }
 
-class RadialLine {
-  constructor(x, y, angle, length, color) {
-    this.x = x;
-    this.y = y;
-    this.angle = angle;
-    this.length = length;
-    this.color = color;
-  }
-
-  draw() {
-    push();
-    rotate(sin(frameCount) * this.rotationSpeed / 8);
-    stroke(this.color);
-    line(this.x, this.y, this.x + cos(this.angle) * this.length, this.y + sin(this.angle) * this.length);
-    pop();
-  }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  
+  // Resize the graphics buffer
+  pg.resizeCanvas(width, height);
+  
+  // Update shader uniforms
+  shaderProgram.setUniform('uResolution', [width, height]);
 }
 
-class OnCenterGrid {
-  constructor(spacing, rotationSpeed, startcolor, endcolor) {
-    this.spacing = spacing;
-    this.rotationSpeed = rotationSpeed;
-    this.startcolor = startcolor;
-    this.endcolor = endcolor;
-  }
-
-  draw() {
-    translate(CENTER_X, CENTER_Y);
-    rotate(sin(frameCount) * this.rotationSpeed);
-    for (let i = 0; i < windowWidth * 2; i += this.spacing) {
-      let colorInc = (windowWidth / 2 * (1 + sin(PI / this.spacing * i))) * 0.00001;
-      stroke(lerpColor(this.startcolor, this.endcolor, colorInc));
-      line(i - windowWidth, -windowHeight, i - windowWidth, windowHeight * 2);
-      line(-windowWidth, i - windowWidth, windowWidth * 2, i - windowWidth);
-    }
-  }
-}
-
-class MoireRectangle {
-  constructor(x, y, w, h, color, lineWeight, lineSpacing, speed = 0, direction = 'x', lineAngle = 0) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.color = color;
-    this.lineWeight = lineWeight;
-    this.lineSpacing = lineSpacing;
-    this.lineAngle = lineAngle;
-    this.speed = speed;
-    this.direction = direction;
-    this.looped = false;
-  }
-  animate() {
-    if (this.direction === 'x') {
-      this.x += this.speed;
-      this.wrapX();
-      if (this.x > windowWidth && this.looped) {
-        this.x = this.lineSpacing;
-      }
-
-      if (this.x + this.h < 0 && this.looped) {
-        this.x = windowWidth - this.w - this.lineSpacing;
-      }
-      this.draw();
-    } else if (this.direction === 'y') {
-      this.y += this.speed;
-      if (this.y > windowHeight && this.looped) {
-        this.y = 0;
-      }
-      this.draw();
-    } else {
-      console.error('Invalid direction. Must be "x" or "y"');
-    }
-  }
-
-  loop() {
-    this.looped = true;
-  }
-
-  private
-
-  wrapX() {
-    push();
-    translate(0, this.y);
-    rotate(this.lineAngle);
-    stroke(this.color);
-    strokeWeight(this.lineWeight);
-    if (this.speed > 0) {
-      if (this.x + this.w > windowWidth) {
-        let overflow = this.x + this.w - windowWidth;
-        for (let i = 0; i < overflow; i += this.lineSpacing) {
-          line(i, 0, i + this.lineAngle, this.h);
-        }
-
-      }
-    }
-    if (this.speed < 0) {
-      if (this.x < 0) {
-        let overflow = abs(this.x);
-        for (let i = windowWidth - overflow; i < windowWidth; i += this.lineSpacing) {
-          line(i, 0, i + this.lineAngle, this.h);
-        }
-      }
-    }
-
-    pop();
-  }
-
-  draw() {
-    push();
-    translate(this.x, this.y);
-    rotate(this.lineAngle);
-    stroke(this.color);
-    strokeWeight(this.lineWeight);
-    for (let i = 0; i < this.w; i += this.lineSpacing) {
-      line(i, 0, i + this.lineAngle, this.h);
-    }
-    pop();
+function checkShaderCompilation(shader) {
+  let gl = this._renderer.GL;
+  let program = shaderProgram._glProgram;
+  
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('Shader program linking failed: ', gl.getProgramInfoLog(program));
   }
 }
