@@ -1,4 +1,4 @@
-let shaderProgram, i, pg;
+let shaderProgram,blurRes;
 
 function preload() {
   shaderProgram = loadShader('shaders/gaus.vert', 'shaders/gaus.frag',
@@ -20,10 +20,11 @@ function setup() {
   
   // Initialize the shader
   shader(shaderProgram);
+  blurRes = [width, height]
   
   // Set shader uniforms
-  shaderProgram.setUniform('uResolution', [width, height]);
-  shaderProgram.setUniform('uBlurSize', 30.0); // Adjust the blur size as needed
+  shaderProgram.setUniform('uResolution', blurRes);
+  shaderProgram.setUniform('uBlurSize', 30); // Adjust the blur size as needed
   
   i = 0;
 
@@ -41,11 +42,7 @@ function draw() {
   pg.ellipse(pg.width / 2 + i, pg.height / 2, 200, 200);
   
   pg.pop();
-  
-  // Apply the shader
   shader(shaderProgram);
-  
-  // Set the texture
   shaderProgram.setUniform('uSampler', pg);
   texture(pg);
   
@@ -66,11 +63,8 @@ function draw() {
     console.warn('Projection matrix or model-view matrix is undefined.');
   }
 
-  // Setup perspective projection
   perspective();
-  
-  // Draw the plane with the same dimensions as the canvas
-  translate(0, 0, 0); // Adjust translation to fit the canvas
+  translate(0, 0, 0);
   plane(width, height);
   
   i += 1;
@@ -86,7 +80,7 @@ function windowResized() {
   pg.resizeCanvas(width, height);
   
   // Update shader uniforms
-  shaderProgram.setUniform('uResolution', [width, height]);
+  shaderProgram.setUniform('uResolution', blurRes);
 }
 
 function checkShaderCompilation(shader) {
