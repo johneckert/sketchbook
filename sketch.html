@@ -32,11 +32,30 @@
           sketchScript.src = src;
           sketchScript.addEventListener('load', resolve);
           sketchScript.addEventListener('error', reject);
-          document.body.append( sketchScript);
+          document.body.append(sketchScript);
         });
       };
 
       addScript(`sketches/${window.location.search.substring(1)}.js`);
+      
+      let hide;
+      let button = document.querySelector('.back-button');
+
+      window.addEventListener('mousemove', () => {
+        clearTimeout(hide);
+        hide = setTimeout(() => {
+          button.classList.remove('show');
+        }, 1000);
+        button.classList.add('show');
+      });
+
+      window.addEventListener('touchstart', () => {
+        button.classList.add('show');
+      });
+
+      window.addEventListener('touchend', () => {
+        button.classList.remove('show');
+      });
 
     </script>
   </body>
