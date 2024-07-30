@@ -27,6 +27,15 @@ function backgroundGradient(c1, c2) {
   }
 }
 
+function pgBackgroundGradient(c1, c2, pg) {
+  for (let i = 0; i < height; i++) {
+    let inter = map(i, 0, height, 0, 1);
+    let c = lerpColor(c1, c2, inter);
+    pg.stroke(c);
+    pg.line(0, i, width, i);
+  }
+}
+
 function backgroundGradientThreeColor(c1, c2, c3) {
   for(let y=0; y<height; y++){
     if (y < height / 2) {
