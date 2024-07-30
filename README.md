@@ -24,6 +24,29 @@ shader(shaderProgram) {
 function draw() {
   shader(shaderProgram);
   shaderProgram.setUniform('uSampler', pg);
+
+  // ... other draw code
+
+  // Ensure the matrices are defined before attempting to use them
+  if (this._renderer.uPMatrix && this._renderer.uMVMatrix) {
+    // Access the projection and model-view matrices
+    let projectionMatrix = this._renderer.uPMatrix.mat4 || this._renderer.uPMatrix;
+    let modelViewMatrix = this._renderer.uMVMatrix.mat4 || this._renderer.uMVMatrix;
+
+    // Convert matrices to Float32Array
+    let projectionMatArray = new Float32Array(projectionMatrix);
+    let modelViewMatArray = new Float32Array(modelViewMatrix);
+
+    // Set matrix uniforms
+    shaderProgram.setUniform('uProjectionMatrix', projectionMatArray);
+    shaderProgram.setUniform('uModelViewMatrix', modelViewMatArray);
+  } else {
+    console.warn('Projection matrix or model-view matrix is undefined.');
+  }
+
+  perspective();
+  translate(0, 0, 0);
+  plane(width, height);
 }
 
 ```
