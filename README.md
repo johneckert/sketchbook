@@ -12,6 +12,20 @@ function preload() {
   shaderProgram = loadShader('shaders/gaus.vert', 'shaders/gaus.frag');
 }
 
+function setup() {}
+shader(shaderProgram) {
+  blurRes = [width, height]
+  
+  // Set shader uniforms
+  shaderProgram.setUniform('uResolution', blurRes);
+  shaderProgram.setUniform('uBlurSize', 30); // Adjust the blur size as needed
+}
+
+function draw() {
+  shader(shaderProgram);
+  shaderProgram.setUniform('uSampler', pg);
+}
+
 ```
 #### Moir Shader Usage
 ```javascript
