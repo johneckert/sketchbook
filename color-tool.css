@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+footer {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  min-width: 90vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #1F1C2C;
+  color: #1F1C2C;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1vw;
+  padding: 0 2vw;
+}
+
+footer a {
+  color: #734b7e;
+  text-decoration: none;
+}
+
+footer a:visited {
+  color: #42276b;
+}
+
+footer a:hover {
+  color: #D3CCE3;
+  text-decoration: underline;
+}
+
+footer > p {
+  width: 30vw;
+}
+
+footer > p:first-child {
+  text-align: left;
+}
+
+footer > p:nth-child(2) {
+  text-align: center;
+}
+
+footer > p:last-child {
+  text-align: right;
+}
+
+#index-body {
+  background-image: linear-gradient(180deg, #1F1C2C, #928DAB);
+  padding: 0 17vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.hide {
+  display: none;
+}
+
+canvas {
+  display: block;
+}
+
+section { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 { 
+  position: relative;
+  font-family: "Orbitron", sans-serif;
+  font-size: 4rem;
+  color: #FAFAFA;
+}
+
+#color-wheel {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;  
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 690px) {
+  h1 {
+    font-size: 9vw;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  #color-wheel {
+    justify-content: center;
+  }
+
+  footer {
+    font-size: 1.8vw;
+  }
+}
