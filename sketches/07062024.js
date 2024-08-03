@@ -23,3 +23,7 @@ function draw() {
   shimmerRect(windowWidth/4 + 50, windowHeight/2 + 50, windowWidth / 2 - 100, windowHeight/2 - 200, color(255, 36, 0), color(195, 36, 116), 20, 2, oscillator);
 
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
