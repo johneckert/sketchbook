@@ -61,7 +61,7 @@ for (let i = 0; i < numberOfDays; i++) {
     }
     return null;
   });
-  if (i < 9) {
+  if (i >= numberOfDays - 10) {
     sketchPromisesPageOne.push(sketchPromise);
   } else {
     sketchPromises.push(sketchPromise);
