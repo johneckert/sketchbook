@@ -18,21 +18,18 @@ function getSketchDateString(offset) {
   return`${month}${day}${year}`;
 }
 
-function checkIfImageExists(url, callback) {
-  const img = new Image();
-  img.src = url;
-  
-  if (img.complete) {
-    callback(true);
-  } else {
-    img.onload = () => {
-      callback(true);
-    };
+function checkIfImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = url;
     
-    img.onerror = () => {
-      callback(false);
-    };
-  }
+    if (img.complete) {
+      resolve(true);
+    } else {
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    }
+  });
 }
 
 function createSketchElement(sketchDateString, i) {
@@ -50,20 +47,27 @@ function createSketchElement(sketchDateString, i) {
     event.preventDefault();
   });
 
-  container.appendChild(sketchEl);
+  return sketchEl;
 }
-
-
-const container = document.getElementById('index-container');
 let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
+const sketchPromises = [];
 
 for (let i = 0; i < numberOfDays; i++) {
   let sketchDateString = getSketchDateString(i);
-  checkIfImageExists(`images/${sketchDateString}.png`, (exists) => {
+  let sketchPromise = checkIfImageExists(`images/${sketchDateString}.png`).then((exists) => {
     if (exists) {
-      createSketchElement(sketchDateString, i);
-    } else {
-      console.warn(`Image ${sketchDateString}.png does not exist`)
+      return createSketchElement(sketchDateString, i);
     }
+    return null;
   });
+
+  sketchPromises.push(sketchPromise);
 }
+
+const container = document.getElementById('index-container');
+
+Promise.all(sketchPromises).then((sketchElements) => {
+  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+    container.appendChild(sketchEl);
+  });
+});
