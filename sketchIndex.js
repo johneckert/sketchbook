@@ -53,7 +53,7 @@ let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
 const sketchPromisesPageOne = [];
 const sketchPromises = [];
 
-for (let i = 0; i < numberOfDays; i++) {
+for (let i = numberOfDays - 1; i >= 0; i--) {
   let sketchDateString = getSketchDateString(i);
   let sketchPromise = checkIfImageExists(`images/${sketchDateString}.png`).then((exists) => {
     if (exists) {
@@ -68,16 +68,19 @@ for (let i = 0; i < numberOfDays; i++) {
   }
 }
 
+console.log(new Date());
 const container = document.getElementById('index-container');
 
 Promise.all(sketchPromisesPageOne).then((sketchElements) => {
   sketchElements.filter(el => el !== null).forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
+  console.log('group1: ', new Date());
 });
 
 Promise.all(sketchPromises).then((sketchElements) => {
   sketchElements.filter(el => el !== null).forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
+  console.log('group2: ', new Date());
 });
