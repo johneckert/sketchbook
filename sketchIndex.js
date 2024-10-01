@@ -66,24 +66,21 @@ for (let i = numberOfDays - 1; i >= 0; i--) {
   if (firstBatchCount < 10 && sketchPromise !== null) {
     sketchPromisesPageOne.push(sketchPromise);
     firstBatchCount++;
-  } else {
+  } else if (sketchPromise !== null) {
     sketchPromises.push(sketchPromise);
   }
 }
 
-console.log(new Date());
 const container = document.getElementById('index-container');
 
 Promise.all(sketchPromisesPageOne).then((sketchElements) => {
-  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+  sketchElements.forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
-  console.log('group1: ', new Date());
 });
 
 Promise.all(sketchPromises).then((sketchElements) => {
-  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+  sketchElements.forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
-  console.log('group2: ', new Date());
 });
