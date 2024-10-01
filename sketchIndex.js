@@ -50,6 +50,7 @@ function createSketchElement(sketchDateString, i) {
   return sketchEl;
 }
 let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
+const sketchPromisesPageOne = [];
 const sketchPromises = [];
 
 for (let i = 0; i < numberOfDays; i++) {
@@ -60,11 +61,20 @@ for (let i = 0; i < numberOfDays; i++) {
     }
     return null;
   });
-
-  sketchPromises.push(sketchPromise);
+  if (i < 9) {
+    sketchPromisesPageOne.push(sketchPromise);
+  } else {
+    sketchPromises.push(sketchPromise);
+  }
 }
 
 const container = document.getElementById('index-container');
+
+Promise.all(sketchPromisesPageOne).then((sketchElements) => {
+  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+    container.appendChild(sketchEl);
+  });
+});
 
 Promise.all(sketchPromises).then((sketchElements) => {
   sketchElements.filter(el => el !== null).forEach((sketchEl) => {
