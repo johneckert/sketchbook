@@ -74,13 +74,13 @@ for (let i = numberOfDays - 1; i >= 0; i--) {
 const container = document.getElementById('index-container');
 
 Promise.all(sketchPromisesPageOne).then((sketchElements) => {
-  sketchElements.forEach((sketchEl) => {
+  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
 });
 
 Promise.all(sketchPromises).then((sketchElements) => {
-  sketchElements.forEach((sketchEl) => {
+  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
 });
