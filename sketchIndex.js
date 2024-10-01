@@ -38,7 +38,7 @@ function checkIfImageExists(url, callback) {
 function createSketchElement(sketchDateString, i) {
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
-  sketchEl.style.order = i;
+  sketchEl.style.order = numberOfDays - i;
   sketchTitle = document.createElement('h2');
   sketchTitle.innerText = sketchDateString;
   sketchEl.appendChild(sketchTitle);
