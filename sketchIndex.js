@@ -15,14 +15,14 @@ function getSketchDateString(offset) {
   let monthDigit = sketchDate.getMonth() + 1;
   let month = monthDigit < 10 ? '0' + monthDigit : monthDigit;
   let year = sketchDate.getFullYear();
-  return`${month}${day}${year}`;
+  return `${month}${day}${year}`;
 }
 
 function checkIfImageExists(url) {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = url;
-    
+
     if (img.complete) {
       resolve(true);
     } else {
@@ -32,14 +32,14 @@ function checkIfImageExists(url) {
   });
 }
 
-function createSketchElement(sketchDateString, i) {
+function createSketchElement(sketchDateString, i, numberOfDays) {
   let sketchEl = document.createElement('div');
   sketchEl.className = 'sketch-item';
   sketchEl.style.order = numberOfDays - i;
-  sketchTitle = document.createElement('h2');
+  let sketchTitle = document.createElement('h2');
   sketchTitle.innerText = sketchDateString;
   sketchEl.appendChild(sketchTitle);
-  sketchImg = document.createElement('img');
+  let sketchImg = document.createElement('img');
   sketchImg.src = 'images/' + sketchDateString + '.png';
   sketchEl.appendChild(sketchImg);
   sketchEl.addEventListener('click', (event) => {
@@ -49,38 +49,65 @@ function createSketchElement(sketchDateString, i) {
 
   return sketchEl;
 }
+
 let numberOfDays = getDaysBetweenDates(START_DATE, CURRENT_DATE);
 const sketchPromisesPageOne = [];
 const sketchPromises = [];
-
 let firstBatchCount = 0;
-for (let i = numberOfDays - 1; i >= 0; i--) {
-  let sketchDateString = getSketchDateString(i);
-  let sketchPromise = checkIfImageExists(`images/${sketchDateString}.png`).then((exists) => {
-    if (exists) {
-      return createSketchElement(sketchDateString, i);
+let lazyLoadStart = 0;
+
+const loadFirstSixSketches = async () => {
+  for (let i = numberOfDays - 1; i >= 0; i--) {
+    let sketchDateString = getSketchDateString(i);
+    let sketchPromise = checkIfImageExists(`images/${sketchDateString}.png`).then((exists) => {
+      if (exists) {
+        return createSketchElement(sketchDateString, i, numberOfDays);
+      }
+      return null;
+    });
+
+    let sketchElement = await sketchPromise;
+    if (sketchElement !== null && firstBatchCount < 6) {
+      sketchPromisesPageOne.push(sketchElement);
+      firstBatchCount++;
+    } else if (sketchElement !== null) {
+      sketchPromises.push(sketchElement);
     }
-    return null;
-  });
 
-  if (firstBatchCount <= 6 && sketchPromise !== null) {
-    sketchPromisesPageOne.push(sketchPromise);
-    firstBatchCount++;
-  } else if (sketchPromise !== null) {
-    sketchPromises.push(sketchPromise);
+    if (firstBatchCount >= 6) {
+      lazyLoadStart = i;
+      break;
+    }
   }
-}
 
-const container = document.getElementById('index-container');
-
-Promise.all(sketchPromisesPageOne).then((sketchElements) => {
-  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+  const container = document.getElementById('index-container');
+  sketchPromisesPageOne.forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
-});
+};
 
-Promise.all(sketchPromises).then((sketchElements) => {
-  sketchElements.filter(el => el !== null).forEach((sketchEl) => {
+const loadRemainingSketches = async () => {
+  for (let i = numberOfDays - 1 - lazyLoadStart; i >= 0; i--) {
+    let sketchDateString = getSketchDateString(i);
+    let sketchPromise = checkIfImageExists(`images/${sketchDateString}.png`).then((exists) => {
+      if (exists) {
+        return createSketchElement(sketchDateString, i, numberOfDays);
+      }
+      return null;
+    });
+
+    let sketchElement = await sketchPromise;
+    if (sketchElement !== null) {
+      sketchPromises.push(sketchElement);
+    }
+  }
+
+  const container = document.getElementById('index-container');
+  sketchPromises.forEach((sketchEl) => {
     container.appendChild(sketchEl);
   });
+};
+
+loadFirstSixSketches().then(() => {
+  loadRemainingSketches();
 });
