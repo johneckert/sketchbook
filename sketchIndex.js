@@ -63,7 +63,7 @@ for (let i = numberOfDays - 1; i >= 0; i--) {
     return null;
   });
 
-  if (firstBatchCount < 10 && sketchPromise !== null) {
+  if (firstBatchCount <= 6 && sketchPromise !== null) {
     sketchPromisesPageOne.push(sketchPromise);
     firstBatchCount++;
   } else if (sketchPromise !== null) {
