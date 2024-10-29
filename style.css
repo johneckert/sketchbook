@@ -94,8 +94,17 @@ footer > p:last-child {
   display: none;
 }
 
+#sketch-background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-color:#1F1C2C;
+}
+
 canvas {
   display: block;
+  margin: 0 auto;
 }
 
 section { 

@@ -10,7 +10,11 @@ let numberOfVertices;
 
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+  if (windowWidth < windowHeight) {
+    createCanvas(windowWidth, windowWidth);
+  } else {
+    createCanvas(windowHeight, windowHeight);
+  }
   background(color(`rgb(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`));
   numberOfVertices = 4;
   centerVertices = 20;
