@@ -2,11 +2,7 @@
 // https://genuary.art/
 // Prompt: Draw one million of something.
 
-
 const ONE_MILLION = 1000000;
-let cam;
-
-marks = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -23,6 +19,10 @@ function setup() {
     cat(x, y, 1.5);
   }
 
+}
+
+
+function draw() {
 }
 
 function cat(x,y, size) {
@@ -55,9 +55,6 @@ function cat(x,y, size) {
   line(x+5*size, y+8*size, x+4.5*size, y+9*size);
   line(x+5*size, y+8*size, x+5.5*size, y+9*size);
   pop();
-}
-
-function draw() {
 }
 
 function windowResized() {
