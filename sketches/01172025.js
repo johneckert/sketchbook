@@ -1,3 +1,7 @@
+// #Genuary2025 #Genuary17
+// https://genuary.art/
+// Prompt: What if PI equals 4.
+
 const sketch = (p5) => {
   let customPI;
   let minPI = 3.00;
