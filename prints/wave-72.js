@@ -5,7 +5,7 @@ let i, baseHeight, frequency, lineColor, lineCount, colorDirection, topHeight, b
 
 
 function setup() {
-  createCanvas(5510, 4000);
+  createCanvas(5515, 4000);
   frameRate(240);
   background(0);
   backgroundGradient(color('#000000'), color('#1A1A30'));
@@ -59,7 +59,7 @@ function draw() {
       bottomHeight = 0;
     }
   }
-  for (let j = 0; j < width / 10.9; j++) {
+  for (let j = 0; j < width / 10; j++) {
     rep();
   }
 }
