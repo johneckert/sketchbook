@@ -1,11 +1,11 @@
-// Title: Wave 72
+// Title: Wave 95
 // 1/28/2025
 
 let i, baseHeight, frequency, lineColor, lineCount, colorDirection, topHeight, bottomHeight, lineCountReverse, frac;
 
 
 function setup() {
-  createCanvas(5515, 4000);
+  createCanvas(6500, 5525);
   frameRate(240);
   background(0);
   backgroundGradient(color('#000000'), color('#1A1A30'));
@@ -22,10 +22,6 @@ function setup() {
 
 function draw() {
   blendMode(SCREEN);
-  if (frameCount === 72) {
-    noLoop();
-    save(`wave-${frameCount}.png`);
-  }
 
   const rep = () => {
     lineColor = lerpColor(color('#123456'), color('#654321'), lineCount);
@@ -59,6 +55,15 @@ function draw() {
       bottomHeight = 0;
     }
   }
+
+  if (frameCount === 95) {
+    for (let j = 0; j < 97; j++) {
+      rep();
+    }
+    noLoop();
+    save(`wave-${frameCount}.png`);
+  }
+
   for (let j = 0; j < width / 10; j++) {
     rep();
   }
