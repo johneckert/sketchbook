@@ -1,11 +1,11 @@
-// Title: Wave 95
+// Title: Wave Dance
 // 1/28/2025
 
 let i, baseHeight, frequency, lineColor, lineCount, colorDirection, topHeight, bottomHeight, lineCountReverse, frac;
 
 
 function setup() {
-  createCanvas(6500, 5525);
+  createCanvas(30833 / 2, 20833 / 2);
   frameRate(240);
   background(0);
   backgroundGradient(color('#000000'), color('#1A1A30'));
@@ -56,12 +56,9 @@ function draw() {
     }
   }
 
-  if (frameCount === 95) {
-    for (let j = 0; j < 97; j++) {
-      rep();
-    }
+  if (frameCount === 170) {
     noLoop();
-    save(`wave-${frameCount}.png`);
+    save(`wave-dance.png`);
   }
 
   for (let j = 0; j < width / 10; j++) {
