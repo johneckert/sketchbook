@@ -1,3 +1,7 @@
+// #Genuary2025 #Genuary29
+// https://genuary.art/
+// Prompt: Grid-based graphic desing.
+
 let img;
 const gridA = [];
 
