@@ -148,6 +148,3 @@ function isThresholdMet(coord, fixed, mode, vertical) {
   }
 }
 
-mouseClicked = () => {
-  saveCanvas('pixel-sorting', 'png');
-};
