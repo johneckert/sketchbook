@@ -5,20 +5,29 @@
 //  1 = black
 //  2 = bright
 //  3 = dark
+//  4 = moreRed
+//  5 = lessRed
+//  6 = moreGreen
+//  7 = lessGreen
+//  8 = moreBlue
+//  9 = lessBlue
 
-let mode = 1;
+let mode = 0;
 let img;
 let loops = 1;
 let row = 0;
 let col = 0;
 
-let whiteThreshold = 120;
-let blackThreshold = 50;
-let brightThreshold = 127;
+let whiteThreshold = 180;
+let blackThreshold = 255;
+let brightThreshold = 120;
 let darkThreshold = 50;
+let redThreshold = 107;
+let greenThreshold = 127;
+let blueThreshold = 50;
 
 function preload() {
-  img = loadImage('../assets/YORK.jpg');
+  img = loadImage('../assets/barker.jpg');
 }
 
 function setup() {
@@ -41,7 +50,6 @@ function draw() {
       row++;
     }
   } else {
-    console.log('done');
     noLoop();
   }
 
@@ -144,10 +152,16 @@ function isThresholdMet(coord, fixed, mode, vertical) {
     case 1: return brightnessVal > blackThreshold;
     case 2: return brightnessVal < brightThreshold;
     case 3: return brightnessVal > darkThreshold;
+    case 4: return getPixelColor(coord, fixed)[0] > redThreshold;
+    case 5: return getPixelColor(coord, fixed)[0] < redThreshold;
+    case 6: return getPixelColor(coord, fixed)[1] > greenThreshold;
+    case 7: return getPixelColor(coord, fixed)[1] < greenThreshold;
+    case 8: return getPixelColor(coord, fixed)[2] > blueThreshold;
+    case 9: return getPixelColor(coord, fixed)[2] < blueThreshold;
     default: return false;
   }
 }
 
-mouseClicked = () => {
-  saveCanvas('pixel-sorting', 'png');
-};
+function mouseClicked() {
+  saveCanvas('pixelsort', 'png');
+}
