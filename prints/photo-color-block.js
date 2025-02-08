@@ -4,6 +4,8 @@
 
 let img;
 const gridA = [];
+let w = 4752;
+let h = 3168;
 
 let baseCellCount = 15
 let rowCount, colCount;
@@ -12,11 +14,12 @@ let cellWidth;
 let cellHeight;
 
 function preload() {
-  img = loadImage(`../assets/lake3.jpeg`);
+  img = loadImage('../assets/YORK STREET 8x10.jpg');
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  noStroke();
+  createCanvas(w, h);
   if (width < height) { 
     let scaler = width / height;
     rowCount = baseCellCount;
@@ -43,6 +46,7 @@ function setup() {
 function draw() {
   noStroke();
   background(0);
+  image(img, 0, 0, width, height);
   drawGrid(gridA, 0.5);
 }
 
@@ -61,7 +65,7 @@ function drawGrid(imgGrid, threshold) {
       rect(cellX, cellY, cellWidth, cellHeight);
       pop();
     } else {
-      image(cell, cellX, cellY);
+      // image(cell, cellX, cellY);
     }
     cellX += cellWidth;
 
@@ -70,6 +74,11 @@ function drawGrid(imgGrid, threshold) {
       cellY += cellHeight;
     }
   }
+}
+
+
+function mouseClicked() {
+  saveCanvas('color-squares', 'png');
 }
 
 function windowResized() {
